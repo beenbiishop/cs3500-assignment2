@@ -210,7 +210,8 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     int midCol = (fromCol + toCol) / 2;
     return this.isValidSlot(fromRow, fromCol) && this.isValidSlot(toRow, toCol)
         && this.getSlotAt(fromRow, fromCol) == SlotState.Marble
-        && this.getSlotAt(toRow, toCol) == SlotState.Empty && (horDiff == 2 ^ verDiff == 2)
+        && this.getSlotAt(toRow, toCol) == SlotState.Empty
+        && ((horDiff == 2 && verDiff == 0) ^ (horDiff == 0 && verDiff == 2))
         && this.getSlotAt(midRow, midCol) == SlotState.Marble;
   }
 

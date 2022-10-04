@@ -171,6 +171,20 @@ public class EnglishSolitaireModelTest {
     }
 
     try {
+      noParams.move(1, 4, 3, 3);
+      fail("Did not throw exception for move that is 2 spaces in one direction but not in a line");
+    } catch (IllegalArgumentException error) {
+      assertEquals("Invalid move from (1, 4) to (3, 3)", error.getMessage());
+    }
+
+    try {
+      noParams.move(4, 2, 2, 4);
+      fail("Did not throw exception for move that is diagonal");
+    } catch (IllegalArgumentException error) {
+      assertEquals("Invalid move from (4, 2) to (2, 4)", error.getMessage());
+    }
+
+    try {
       noParams.move(3, 5, 3, 3);
       noParams.move(3, 3, 3, 5);
       fail("Did not throw an exception for move that does not have a marble in between");
