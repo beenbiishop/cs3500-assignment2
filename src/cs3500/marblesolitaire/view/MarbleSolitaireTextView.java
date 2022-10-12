@@ -1,6 +1,7 @@
 package cs3500.marblesolitaire.view;
 
 import cs3500.marblesolitaire.model.hw02.MarbleSolitaireModelState;
+import java.io.IOException;
 
 /**
  * Represents a textual view of a Marble Solitaire game.
@@ -13,28 +14,33 @@ import cs3500.marblesolitaire.model.hw02.MarbleSolitaireModelState;
 public class MarbleSolitaireTextView implements MarbleSolitaireView {
 
   private final MarbleSolitaireModelState model;
+  private final Appendable appendable;
+
+  /**
+   * Constructs a new text view of the given model with a given appendable.
+   *
+   * @param model      the model object to be represented
+   * @param appendable the appendable to append the text to
+   * @throws IllegalArgumentException if the model or appendable are null
+   */
+  public MarbleSolitaireTextView(MarbleSolitaireModelState model, Appendable appendable)
+      throws IllegalArgumentException {
+    if (model == null || appendable == null) {
+      throw new IllegalArgumentException("The model and appendable cannot be null");
+    }
+    this.model = model;
+    this.appendable = appendable;
+  }
 
   /**
    * Constructs a new text view of the given model.
    *
    * @param model the model object to be represented
-   * @throws IllegalArgumentException if the given model is null
    */
-  public MarbleSolitaireTextView(MarbleSolitaireModelState model) throws IllegalArgumentException {
-    if (model == null) {
-      throw new IllegalArgumentException("The model cannot be null");
-    }
-    this.model = model;
+  public MarbleSolitaireTextView(MarbleSolitaireModelState model) {
+    this(model, System.out);
   }
 
-  /**
-   * Return a string that represents the current state of the board. The string should have one line
-   * per row of the game board. Each slot on the game board is a single character (O, _ or space for
-   * a marble, empty and invalid position respectively). Slots in a row should be separated by a
-   * space. Each row has no space before the first slot and after the last slot.
-   *
-   * @return the game state as a string
-   */
   @Override
   public String toString() {
     StringBuilder state = new StringBuilder();
@@ -58,8 +64,7 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
             throw new IllegalArgumentException("Invalid slot state");
         }
         if ((row < firstRowCol && col < lastRowCol) || (row > lastRowCol && col < lastRowCol) || (
-            row >= firstRowCol && row <= lastRowCol && col < (this.model.getBoardSize()
-                - 1))) {
+            row >= firstRowCol && row <= lastRowCol && col < (this.model.getBoardSize() - 1))) {
           state.append(" ");
         }
       }
@@ -68,5 +73,23 @@ public class MarbleSolitaireTextView implements MarbleSolitaireView {
       }
     }
     return state.toString();
+  }
+
+  @Override
+  public void renderBoard() throws IOException {
+    try {
+      this.appendable.append(this.toString());
+    } catch (IOException e) {
+      throw new IOException("Error when attempting to render board");
+    }
+  }
+
+  @Override
+  public void renderMessage(String message) throws IOException {
+    try {
+      this.appendable.append(message);
+    } catch (IOException e) {
+      throw new IOException("Error when attempting to render message");
+    }
   }
 }
