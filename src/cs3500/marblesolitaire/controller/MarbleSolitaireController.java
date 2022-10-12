@@ -6,8 +6,8 @@ package cs3500.marblesolitaire.controller;
 public interface MarbleSolitaireController {
 
   /**
-   * Play a game of marble solitaire. Handle input from the user via the model, and output to the
-   * view.
+   * Play a new game of marble solitaire. Handle input from the user via the model, and output to
+   * the view.
    *
    * @throws IllegalStateException if the controller is unable to read from the input or write to
    *                               the output
