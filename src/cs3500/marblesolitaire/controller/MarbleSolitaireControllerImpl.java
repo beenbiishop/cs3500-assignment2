@@ -32,18 +32,18 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
       int cursor = 0;
       int[] move = new int[4];
       while (cursor < 4) {
-        if (scanner.hasNext(Pattern.compile("^(q|quit)$", Pattern.CASE_INSENSITIVE))) {
+        if (scanner.hasNextInt()) {
+          move[cursor] = scanner.nextInt();
+          cursor++;
+        } else if (scanner.hasNext(Pattern.compile("^(q|quit)$", Pattern.CASE_INSENSITIVE))) {
           this.renderMessageISE("Game quit!" + System.lineSeparator() + "State of game when quit:"
-              + System.lineSeparator());
+              + System.lineSeparator() + scanner.next());
           this.renderBoardISE();
           this.renderMessageISE(
               System.lineSeparator() + "Score: " + this.model.getScore() + System.lineSeparator());
           return;
-        } else if (scanner.hasNextInt()) {
-          move[cursor] = scanner.nextInt();
-          cursor++;
         } else {
-          scanner.next();
+          scanner.nextLine();
         }
       }
       try {
@@ -53,7 +53,8 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
                 + System.lineSeparator());
       } catch (IllegalArgumentException e) {
         this.renderMessageISE("Invalid move. Try again." + System.lineSeparator());
-        scanner.next();
+        move = new int[4];
+        cursor = 0;
       }
 
     }
