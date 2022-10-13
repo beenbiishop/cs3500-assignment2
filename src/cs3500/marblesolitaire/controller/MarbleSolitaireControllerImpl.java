@@ -69,12 +69,14 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
         this.model.move(move[0] - 1, move[1] - 1, move[2] - 1, move[3] - 1);
       } catch (IllegalArgumentException e) {
         this.renderMessageISE("Invalid move. Try again." + System.lineSeparator());
-        move = new int[4];
-        cursor = 0;
       }
-
     }
-
+    if (this.model.isGameOver()) {
+      this.renderMessageISE(System.lineSeparator() + "Game over!" + System.lineSeparator());
+      this.renderBoardISE();
+      this.renderMessageISE(
+          System.lineSeparator() + "Score: " + this.model.getScore() + System.lineSeparator());
+    }
   }
 
   /**
