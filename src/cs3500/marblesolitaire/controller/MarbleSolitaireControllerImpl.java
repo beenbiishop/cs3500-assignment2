@@ -23,18 +23,28 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
 
   @Override
   public void playGame() throws IllegalStateException {
+    // Create a new scanner to read the input
     Scanner scanner = new Scanner(this.input);
+    // Try rendering the input
     try {
+      // While the game is not over, render the board and ask for input
       while (!this.model.isGameOver()) {
+        // Render the board and the current score
         this.view.renderBoard();
         this.view.renderMessage(
             System.lineSeparator() + "Score: " + this.model.getScore() + System.lineSeparator());
+        // Initialize cursor and move variables
         int cursor = 0;
         int[] move = new int[4];
+        // While there are less than 4 valid inputs, ask for more inputs
         while (cursor < 4) {
+          // Check if scanner has another input token
           if (scanner.hasNext()) {
+            // Store the next input token as a variable
             String next = scanner.next();
+            // Check if the next input token is a "q" or "quit", if so quit the game
             if (next.equalsIgnoreCase("q") || next.equalsIgnoreCase("quit")) {
+              // Try to render the quit message
               try {
                 this.view.renderMessage(
                     "Game quit!" + System.lineSeparator() + "State of game when quit:"
@@ -46,7 +56,7 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
                 throw new IllegalStateException(e.getMessage());
               }
               return;
-            } else if (stringIsInts(next)) {
+            } else if (stringIsInts(next)) { // Check if the next input token is all integers
               String[] split = next.split(" ");
               for (String s : split) {
                 move[cursor] = Integer.parseInt(s);
