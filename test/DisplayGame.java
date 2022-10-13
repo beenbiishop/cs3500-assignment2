@@ -6,8 +6,16 @@ import cs3500.marblesolitaire.view.MarbleSolitaireTextView;
 import cs3500.marblesolitaire.view.MarbleSolitaireView;
 import java.io.InputStreamReader;
 
+/**
+ * Displays the game in the terminal for the user.
+ */
 public class DisplayGame {
 
+  /**
+   * Initializes a new playable game for the user.
+   *
+   * @param args the arguments taken in by the main method
+   */
   public static void main(String[] args) {
     MarbleSolitaireModel model = new EnglishSolitaireModel();
     MarbleSolitaireView view = new MarbleSolitaireTextView(model);
