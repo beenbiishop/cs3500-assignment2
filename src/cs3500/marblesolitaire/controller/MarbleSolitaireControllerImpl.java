@@ -6,12 +6,26 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+/**
+ * Represents an implemented controller for a Marble Solitaire game.
+ *
+ * <p>This controller takes in a MarbleSolitaireModel and a MarbleSolitaireView and allows the user
+ * to play the game by reading their input and displaying changes to the game state.</p>
+ */
 public class MarbleSolitaireControllerImpl implements MarbleSolitaireController {
 
   MarbleSolitaireModel model;
   MarbleSolitaireView view;
   Readable input;
 
+  /**
+   * Constructs a new controller for the given model, view, and input.
+   *
+   * @param model the model to be played
+   * @param view  the view to be displayed
+   * @param input the input to be read
+   * @throws IllegalArgumentException if the model, view, or input are null
+   */
   public MarbleSolitaireControllerImpl(MarbleSolitaireModel model, MarbleSolitaireView view,
       Readable input) throws IllegalArgumentException {
     if (model == null || view == null || input == null) {
@@ -35,22 +49,24 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
         if (scanner.hasNextInt()) {
           int theInt = scanner.nextInt();
           if (theInt > 0) {
-            move[cursor] = theInt - 1;
+            move[cursor] = theInt;
             cursor++;
           }
-        } else if (scanner.hasNext(Pattern.compile("^(q|quit)$", Pattern.CASE_INSENSITIVE))) {
+        } else if (scanner.hasNext(Pattern.compile("q", Pattern.CASE_INSENSITIVE))
+            || scanner.hasNext(Pattern.compile("quit", Pattern.CASE_INSENSITIVE))) {
           this.renderMessageISE("Game quit!" + System.lineSeparator() + "State of game when quit:"
-              + System.lineSeparator() + scanner.next());
+              + System.lineSeparator());
           this.renderBoardISE();
           this.renderMessageISE(
               System.lineSeparator() + "Score: " + this.model.getScore() + System.lineSeparator());
           return;
         } else {
           scanner.next();
+          System.out.println("here");
         }
       }
       try {
-        this.model.move(move[0], move[1], move[2], move[3]);
+        this.model.move(move[0] - 1, move[1] - 1, move[2] - 1, move[3] - 1);
         this.renderMessageISE(
             "Moving from (" + move[0] + ", " + move[1] + ") to (" + move[2] + ", " + move[3] + ")"
                 + System.lineSeparator());
@@ -64,6 +80,11 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
 
   }
 
+  /**
+   * Renders the board to this view's appendable.
+   *
+   * @throws IllegalStateException if the appendable throws an IOException
+   */
   private void renderBoardISE() throws IllegalStateException {
     try {
       this.view.renderBoard();
@@ -72,6 +93,12 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
     }
   }
 
+  /**
+   * Renders the given message to this view's appendable.
+   *
+   * @param message the message to append
+   * @throws IllegalStateException if the appendable throws an IOException
+   */
   private void renderMessageISE(String message) throws IllegalStateException {
     try {
       this.view.renderMessage(message);

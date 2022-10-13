@@ -238,11 +238,6 @@ public class EnglishSolitaireModel implements MarbleSolitaireModel {
     this.board[toRow][toCol] = SlotState.Marble;
   }
 
-  /**
-   * Determine and return if the game is over or not. A game is over if no more moves can be made.
-   *
-   * @return true if the game is over, false otherwise
-   */
   @Override
   public boolean isGameOver() {
     for (int row = 0; row < this.getBoardSize(); row++) {
