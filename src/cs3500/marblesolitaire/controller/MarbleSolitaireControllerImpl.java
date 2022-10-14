@@ -62,8 +62,11 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
               System.lineSeparator() + "Score: " + this.model.getScore() + System.lineSeparator());
           return;
         } else {
-          scanner.next();
-          System.out.println("here");
+          try {
+            scanner.next();
+          } catch (NoSuchElementException e) {
+            throw new IllegalStateException(e.getMessage());
+          }
         }
       }
       try {
@@ -78,11 +81,8 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
       this.renderMessageISE(
           System.lineSeparator() + "Score: " + this.model.getScore() + System.lineSeparator());
     }
-    try {
-      if (!scanner.hasNext()) {
-        scanner.close();
-      }
-    } catch (NoSuchElementException e) {
+
+    if (!scanner.hasNext() && !this.model.isGameOver()) {
       throw new IllegalStateException("Input is closed");
     }
   }
