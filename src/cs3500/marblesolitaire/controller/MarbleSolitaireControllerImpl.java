@@ -3,6 +3,7 @@ package cs3500.marblesolitaire.controller;
 import cs3500.marblesolitaire.model.hw02.MarbleSolitaireModel;
 import cs3500.marblesolitaire.view.MarbleSolitaireView;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -76,6 +77,13 @@ public class MarbleSolitaireControllerImpl implements MarbleSolitaireController 
       this.renderBoardISE();
       this.renderMessageISE(
           System.lineSeparator() + "Score: " + this.model.getScore() + System.lineSeparator());
+    }
+    try {
+      if (!scanner.hasNext()) {
+        scanner.close();
+      }
+    } catch (NoSuchElementException e) {
+      throw new IllegalStateException("Input is closed");
     }
   }
 
